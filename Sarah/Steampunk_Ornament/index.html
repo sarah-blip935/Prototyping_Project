@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steampunk Ornament Designer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app">
+    <div class="header">
+      <h1>⚙ Steampunk Ornament Designer</h1>
+      <p>Victorian Clockwork Snowflake Generator</p>
+    </div>
+
+    <div class="main">
+      <div class="panel">
+        <div class="panel-title">Design Options</div>
+
+        <div class="option-group">
+          <span class="option-label">Style</span>
+          <div class="options" id="style-opts">
+            <button class="opt-btn active" data-group="style" data-val="Gearwork Star">Gearwork Star</button>
+            <button class="opt-btn" data-group="style" data-val="Victorian Spiral">Victorian Spiral</button>
+            <button class="opt-btn" data-group="style" data-val="Riveted Compass">Riveted Compass</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <span class="option-label">Center Clock</span>
+          <div class="options">
+            <button class="opt-btn active" data-group="clock" data-val="Roman Numerals">Roman Numerals</button>
+            <button class="opt-btn" data-group="clock" data-val="Gear Face">Gear Face</button>
+            <button class="opt-btn" data-group="clock" data-val="Compass Rose">Compass Rose</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <span class="option-label">Material Finish</span>
+          <div class="options">
+            <button class="opt-btn active" data-group="finish" data-val="Aged Brass">Aged Brass</button>
+            <button class="opt-btn" data-group="finish" data-val="Dark Bronze">Dark Bronze</button>
+            <button class="opt-btn" data-group="finish" data-val="Copper Patina">Copper Patina</button>
+            <button class="opt-btn" data-group="finish" data-val="Silver Steel">Silver Steel</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <span class="option-label">Arm Detail</span>
+          <div class="options">
+            <button class="opt-btn active" data-group="arm" data-val="Riveted">Riveted</button>
+            <button class="opt-btn" data-group="arm" data-val="Filigree">Filigree</button>
+            <button class="opt-btn" data-group="arm" data-val="Gear Links">Gear Links</button>
+          </div>
+        </div>
+
+        <div class="option-group">
+          <span class="option-label">Size</span>
+          <div class="options">
+            <button class="opt-btn" data-group="size" data-val="Small (3in)">Small 3in</button>
+            <button class="opt-btn active" data-group="size" data-val="Standard (4.5in)">Standard 4.5in</button>
+            <button class="opt-btn" data-group="size" data-val="Large (6in)">Large 6in</button>
+          </div>
+        </div>
+
+        <button class="generate-btn" id="gen-btn" onclick="generateOrnament()">⚙ Generate Design</button>
+      </div>
+
+      <div class="panel preview-panel">
+        <div class="panel-title">Preview</div>
+        <svg id="ornament-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="desc-box" id="desc-box">Select your options and click Generate Design to create your custom ornament.</div>
+        <div class="badge-row" id="badges"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
