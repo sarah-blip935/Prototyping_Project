@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediCare Plus — Advanced Healthcare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <!-- CSS yahan <style> tag mein hai (neeche dekhen) -->
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav-scroll fixed top-0 w-full z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 btn-main rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zM12 8v8M8 12h8"/></svg>
+        </div>
+        <span class="font-display text-xl font-bold text-slate-800">MediCare<span class="text-blue-600">Plus</span></span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm text-slate-600 font-medium">
+        <a href="#departments" class="hover:text-blue-600 transition">Departments</a>
+        <a href="#doctors" class="hover:text-blue-600 transition">Doctors</a>
+        <a href="#services" class="hover:text-blue-600 transition">Services</a>
+        <a href="#contact" class="hover:text-blue-600 transition">Contact</a>
+      </div>
+      <div class="flex gap-3">
+        <button class="border border-blue-200 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition hidden md:block">Patient Portal</button>
+        <button class="btn-main text-white px-5 py-2 rounded-lg text-sm font-semibold">Book Appointment</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-bg pt-20 min-h-screen flex items-center relative overflow-hidden">
+    <div class="absolute top-20 right-10 w-96 h-96 rounded-full bg-white/5"></div>
+    <div class="absolute bottom-10 left-10 w-64 h-64 rounded-full bg-white/5"></div>
+
+    <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-16 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 bg-white/15 border border-white/20 px-4 py-2 rounded-full text-white text-xs font-medium mb-8 fade-up">
+          <span class="relative w-2 h-2"><span class="pulse-dot absolute w-2 h-2 rounded-full bg-green-400"></span></span>
+          Emergency Services Available 24/7
+        </div>
+        <h1 class="font-display text-5xl md:text-6xl font-bold text-white leading-tight mb-6 fade-up d1">
+          Your Health,<br/>Our <span class="text-cyan-300">Priority</span>
+        </h1>
+        <p class="text-blue-100 text-lg leading-relaxed mb-10 fade-up d2">
+          World-class healthcare with compassion. From routine checkups to complex surgeries — our expert team is here for you every step of the way.
+        </p>
+        <div class="flex flex-wrap gap-4 fade-up d3">
+          <button class="bg-white text-blue-800 px-8 py-3.5 rounded-xl font-semibold hover:shadow-xl transition">Book Appointment →</button>
+          <button class="border border-white/40 text-white px-8 py-3.5 rounded-xl font-medium hover:bg-white/10 transition">Emergency: 1122</button>
+        </div>
+
+        <div class="grid grid-cols-3 gap-4 mt-14 fade-up d4">
+          <div class="stat-card rounded-2xl p-4 text-center">
+            <p class="text-3xl font-display font-bold text-white">25+</p>
+            <p class="text-blue-200 text-xs mt-1">Years Experience</p>
+          </div>
+          <div class="stat-card rounded-2xl p-4 text-center">
+            <p class="text-3xl font-display font-bold text-white">150+</p>
+            <p class="text-blue-200 text-xs mt-1">Expert Doctors</p>
+          </div>
+          <div class="stat-card rounded-2xl p-4 text-center">
+            <p class="text-3xl font-display font-bold text-white">50K+</p>
+            <p class="text-blue-200 text-xs mt-1">Patients Served</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden md:block">
+        <div class="bg-white rounded-3xl p-8 shadow-2xl">
+          <h3 class="font-display text-xl font-bold text-slate-800 mb-6">Quick Appointment</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm text-slate-500 font-medium block mb-1">Full Name</label>
+              <input class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400" placeholder="Enter your name"/>
+            </div>
+            <div>
+              <label class="text-sm text-slate-500 font-medium block mb-1">Department</label>
+              <select class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400 text-slate-600">
+                <option>Cardiology</option>
+                <option>Neurology</option>
+                <option>Orthopedics</option>
+                <option>Pediatrics</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-sm text-slate-500 font-medium block mb-1">Preferred Date</label>
+              <input type="date" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400 text-slate-600"/>
+            </div>
+            <button class="btn-main w-full text-white py-3.5 rounded-xl font-semibold text-sm">Confirm Appointment ✓</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPARTMENTS -->
+  <section id="departments" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-blue-600 font-semibold text-sm uppercase tracking-widest mb-3">Our Departments</p>
+        <h2 class="font-display text-4xl font-bold text-slate-800">Specialized <span class="text-blue-600">Medical Care</span></h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card-hover rounded-2xl p-7 bg-white">
+          <div class="dept-icon bg-red-50 mb-5"><svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+          <h3 class="font-display text-lg font-bold text-slate-800 mb-2">Cardiology</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Advanced heart care with state-of-the-art diagnostic and treatment facilities.</p>
+          <p class="text-blue-600 text-sm font-semibold mt-4">12 Specialists →</p>
+        </div>
+        <div class="card-hover rounded-2xl p-7 bg-white">
+          <div class="dept-icon bg-purple-50 mb-5"><svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.5 2A2.5 2.5 0 0112 4.5v15a2.5 2.5 0 01-4.96-.46 2.5 2.5 0 01-1.07-4.73A3 3 0 016.5 9h1A2.5 2.5 0 019.5 2z"/></svg></div>
+          <h3 class="font-display text-lg font-bold text-slate-800 mb-2">Neurology</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Expert neurological care for brain, spine, and nervous system disorders.</p>
+          <p class="text-blue-600 text-sm font-semibold mt-4">8 Specialists →</p>
+        </div>
+        <div class="card-hover rounded-2xl p-7 bg-white">
+          <div class="dept-icon bg-green-50 mb-5"><svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <h3 class="font-display text-lg font-bold text-slate-800 mb-2">Orthopedics</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Comprehensive bone and joint care from fractures to complex joint replacements.</p>
+          <p class="text-blue-600 text-sm font-semibold mt-4">10 Specialists →</p>
+        </div>
+        <div class="card-hover rounded-2xl p-7 bg-white">
+          <div class="dept-icon bg-yellow-50 mb-5"><svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg></div>
+          <h3 class="font-display text-lg font-bold text-slate-800 mb-2">Pediatrics</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Gentle, specialized care for children from newborns to teenagers.</p>
+          <p class="text-blue-600 text-sm font-semibold mt-4">15 Specialists →</p>
+        </div>
+        <div class="card-hover rounded-2xl p-7 bg-white">
+          <div class="dept-icon bg-blue-50 mb-5"><svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3 class="font-display text-lg font-bold text-slate-800 mb-2">Ophthalmology</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Complete eye care including LASIK, cataract surgery, and retinal treatment.</p>
+          <p class="text-blue-600 text-sm font-semibold mt-4">6 Specialists →</p>
+        </div>
+        <div class="card-hover rounded-2xl p-7 bg-white">
+          <div class="dept-icon bg-pink-50 mb-5"><svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3 class="font-display text-lg font-bold text-slate-800 mb-2">Oncology</h3>
+          <p class="text-slate-500 text-sm leading-relaxed">Cutting-edge cancer treatment with personalized care plans and support.</p>
+          <p class="text-blue-600 text-sm font-semibold mt-4">9 Specialists →</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCTORS -->
+  <section id="doctors" class="py-24 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <p class="text-blue-600 font-semibold text-sm uppercase tracking-widest mb-3">Our Team</p>
+        <h2 class="font-display text-4xl font-bold text-slate-800">Meet Our <span class="text-blue-600">Expert Doctors</span></h2>
+      </div>
+      <div class="grid md:grid-cols-4 gap-6">
+        <div class="card-hover bg-white rounded-2xl p-6 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 mx-auto mb-4 flex items-center justify-center text-white font-display font-bold text-2xl">AK</div>
+          <h3 class="font-display font-bold text-slate-800">Dr. Ayesha Khan</h3>
+          <p class="text-blue-600 text-xs font-medium mt-1">Cardiologist</p>
+          <p class="text-slate-400 text-xs mt-1">15 years exp.</p>
+          <div class="flex justify-center gap-1 mt-3">
+            <span class="text-yellow-400 text-xs">★★★★★</span>
+          </div>
+        </div>
+        <div class="card-hover bg-white rounded-2xl p-6 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 mx-auto mb-4 flex items-center justify-center text-white font-display font-bold text-2xl">MR</div>
+          <h3 class="font-display font-bold text-slate-800">Dr. M. Raza</h3>
+          <p class="text-blue-600 text-xs font-medium mt-1">Neurologist</p>
+          <p class="text-slate-400 text-xs mt-1">20 years exp.</p>
+          <div class="flex justify-center gap-1 mt-3">
+            <span class="text-yellow-400 text-xs">★★★★★</span>
+          </div>
+        </div>
+        <div class="card-hover bg-white rounded-2xl p-6 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 mx-auto mb-4 flex items-center justify-center text-white font-display font-bold text-2xl">SA</div>
+          <h3 class="font-display font-bold text-slate-800">Dr. Sara Ahmed</h3>
+          <p class="text-blue-600 text-xs font-medium mt-1">Pediatrician</p>
+          <p class="text-slate-400 text-xs mt-1">12 years exp.</p>
+          <div class="flex justify-center gap-1 mt-3">
+            <span class="text-yellow-400 text-xs">★★★★★</span>
+          </div>
+        </div>
+        <div class="card-hover bg-white rounded-2xl p-6 text-center">
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 mx-auto mb-4 flex items-center justify-center text-white font-display font-bold text-2xl">ZH</div>
+          <h3 class="font-display font-bold text-slate-800">Dr. Zara Hassan</h3>
+          <p class="text-blue-600 text-xs font-medium mt-1">Orthopedic</p>
+          <p class="text-slate-400 text-xs mt-1">18 years exp.</p>
+          <div class="flex justify-center gap-1 mt-3">
+            <span class="text-yellow-400 text-xs">★★★★★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="hero-bg py-20">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h2 class="font-display text-4xl font-bold text-white mb-4">Ready to Take Care of Your Health?</h2>
+      <p class="text-blue-100 mb-8">Book an appointment today. Our team is ready to help you.</p>
+      <button class="bg-white text-blue-800 px-10 py-4 rounded-xl font-bold text-base hover:shadow-2xl transition">Book Appointment Now →</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+      <span class="font-display font-bold text-white text-lg">MediCare<span class="text-blue-400">Plus</span></span>
+      <p class="text-sm">Emergency: <span class="text-white font-bold">1122</span> | Appointments: <span class="text-white font-bold">0300-1234567</span></p>
+      <p class="text-sm">© 2026 MediCarePlus. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
