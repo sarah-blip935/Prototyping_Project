@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #05050a;
+  font-family: 'Courier New', monospace;
+}
+#info {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  color: #7df9ff;
+  z-index: 10;
+  text-shadow: 0 0 10px rgba(125, 249, 255, 0.7);
+  pointer-events: none;
+}
+#info h1 {
+  font-size: 20px;
+  margin: 0 0 4px 0;
+  letter-spacing: 2px;
+}
+#info p {
+  font-size: 12px;
+  margin: 2px 0;
+  color: #9aa;
+}
+#hint {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  color: #667;
+  font-size: 11px;
+  z-index: 10;
+  letter-spacing: 1px;
+}
