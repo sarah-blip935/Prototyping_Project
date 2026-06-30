@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3D Point Cloud Visualization - Leica Cyclone 3DR Style</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #0a0a0a; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            flex-direction: column;
+            font-family: Arial;
+            overflow: hidden;
+        }
+        h1 { 
+            color: #00ff88; 
+            margin-bottom: 8px; 
+            font-size: 18px; 
+            text-align: center; 
+        }
+        #info {
+            color: #00d4ff;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        canvas { display: block; }
+        #stats {
+            color: #ffffff;
+            font-size: 11px;
+            margin-top: 8px;
+            text-align: center;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏗️ 3D Point Cloud Visualization</h1>
+    <p id="info">⚡ WebGL Rendering | Drag to Rotate | Scroll to Zoom</p>
+    <canvas id="canvas"></canvas>
+    <p id="stats">Points: 15,000 | Format: XYZ RGB | Coordinate System: WCS</p>
+
+<script>
+const canvas = document.getElementById('canvas');
+canvas.width = 700;
+canvas.height = 500;
+const gl = canvas.getContext('webgl', {antialias: true});
+
+gl.clearColor(0.04, 0.04, 0.08, 1.0);
+gl.enable(gl.DEPTH_TEST);
+
+const vsCode = `
+attribute vec3 aPos;
+attribute vec3 aColor;
+uniform mat4 uMVP;
+uniform float uPointSize;
+varying vec3 vColor;
+void main(void) {
+    gl_Position = uMVP * vec4(aPos, 1.0);
+    gl_PointSize = uPointSize;
+    vColor = aColor;
+}`;
+
+const fsCode = `
+precision mediump float;
+varying vec3 vColor;
+void main(void) {
+    float d = length(gl_PointCoord - vec2(0.5));
+    if(d > 0.5) discard;
+    gl_FragColor = vec4(vColor, 1.0);
+}`;
+
+function makeShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+}
+
+const prog = gl.createProgram();
+gl.attachShader(prog, makeShader(gl.VERTEX_SHADER, vsCode));
+gl.attachShader(prog, makeShader(gl.FRAGMENT_SHADER, fsCode));
+gl.linkProgram(prog);
+gl.useProgram(prog);
+
+// Generate point cloud - building/room scan style
+const NUM_POINTS = 15000;
+const positions = new Float32Array(NUM_POINTS * 3);
+const colorData = new Float32Array(NUM_POINTS * 3);
+
+function hsv(h, s, v) {
+    const i = Math.floor(h * 6);
+    const f = h * 6 - i;
+    const p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s);
+    switch(i % 6) {
+        case 0: return [v, t, p];
+        case 1: return [q, v, p];
+        case 2: return [p, v, t];
+        case 3: return [p, q, v];
+        case 4: return [t, p, v];
+        case 5: return [v, p, q];
+    }
+}
+
+let idx = 0;
+// Floor
+for(let i = 0; i < 4000; i++) {
+    positions[idx*3]   = (Math.random() - 0.5) * 4;
+    positions[idx*3+1] = -1.5 + (Math.random() - 0.5) * 0.05;
+    positions[idx*3+2] = (Math.random() - 0.5) * 4;
+    const c = hsv(0.08, 0.3, 0.4 + Math.random() * 0.3);
+    colorData[idx*3] = c[0]; colorData[idx*3+1] = c[1]; colorData[idx*3+2] = c[2];
+    idx++;
+}
+// Walls
+for(let i = 0; i < 3000; i++) {
+    const wall = Math.floor(Math.random() * 4);
+    let x, y, z;
+    y = (Math.random() - 0.5) * 3;
+    if(wall === 0)      { x = -2; z = (Math.random()-0.5)*4; }
+    else if(wall === 1) { x =  2; z = (Math.random()-0.5)*4; }
+    else if(wall === 2) { x = (Math.random()-0.5)*4; z = -2; }
+    else                { x = (Math.random()-0.5)*4; z =  2; }
+    positions[idx*3] = x + (Math.random()-0.5)*0.05;
+    positions[idx*3+1] = y;
+    positions[idx*3+2] = z + (Math.random()-0.5)*0.05;
+    const c = hsv(0.55, 0.5, 0.3 + Math.random() * 0.4);
+    colorData[idx*3] = c[0]; colorData[idx*3+1] = c[1]; colorData[idx*3+2] = c[2];
+    idx++;
+}
+// Ceiling
+for(let i = 0; i < 2000; i++) {
+    positions[idx*3]   = (Math.random()-0.5)*4;
+    positions[idx*3+1] = 1.5 + (Math.random()-0.5)*0.05;
+    positions[idx*3+2] = (Math.random()-0.5)*4;
+    const c = hsv(0.6, 0.2, 0.5 + Math.random()*0.3);
+    colorData[idx*3] = c[0]; colorData[idx*3+1] = c[1]; colorData[idx*3+2] = c[2];
+    idx++;
+}
+// Objects - table/furniture
+for(let i = 0; i < 2000; i++) {
+    const ox = (Math.random()-0.5)*1.5;
+    const oz = (Math.random()-0.5)*1.5;
+    const oy = -1.5 + Math.random()*1.5;
+    positions[idx*3]   = ox + (Math.random()-0.5)*0.05;
+    positions[idx*3+1] = oy;
+    positions[idx*3+2] = oz + (Math.random()-0.5)*0.05;
+    const c = hsv(0.35, 0.6, 0.5 + Math.random()*0.4);
+    colorData[idx*3] = c[0]; colorData[idx*3+1] = c[1]; colorData[idx*3+2] = c[2];
+    idx++;
+}
+// Height-based coloring (intensity scan)
+for(let i = idx; i < NUM_POINTS; i++) {
+    const x = (Math.random()-0.5)*4;
+    const y = (Math.random()-0.5)*3;
+    const z = (Math.random()-0.5)*4;
+    positions[i*3] = x; positions[i*3+1] = y; positions[i*3+2] = z;
+    const t = (y + 1.5) / 3.0;
+    const c = hsv(0.66 - t * 0.66, 1.0, 0.8);
+    colorData[i*3] = c[0]; colorData[i*3+1] = c[1]; colorData[i*3+2] = c[2];
+}
+
+const posBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+const posLoc = gl.getAttribLocation(prog, 'aPos');
+gl.enableVertexAttribArray(posLoc);
+gl.vertexAttribPointer(posLoc, 3, gl.FLOAT, false, 0, 0);
+
+const colBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, colBuf);
+gl.bufferData(gl.ARRAY_BUFFER, colorData, gl.STATIC_DRAW);
+const colLoc = gl.getAttribLocation(prog, 'aColor');
+gl.enableVertexAttribArray(colLoc);
+gl.vertexAttribPointer(colLoc, 3, gl.FLOAT, false, 0, 0);
+
+const mvpLoc = gl.getUniformLocation(prog, 'uMVP');
+const psLoc  = gl.getUniformLocation(prog, 'uPointSize');
+
+function mulMat(a, b) {
+    const r = new Float32Array(16);
+    for(let i=0;i<4;i++) for(let j=0;j<4;j++) for(let k=0;k<4;k++)
+        r[j*4+i] += a[k*4+i]*b[j*4+k];
+    return r;
+}
+function perspective(fov, asp, n, f) {
+    const t = Math.tan(fov*Math.PI/360);
+    const r = new Float32Array(16);
+    r[0]=1/(asp*t); r[5]=1/t;
+    r[10]=(f+n)/(n-f); r[11]=-1; r[14]=(2*f*n)/(n-f);
+    return r;
+}
+function rotY(a) {
+    const c=Math.cos(a),s=Math.sin(a);
+    return new Float32Array([c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1]);
+}
+function rotX(a) {
+    const c=Math.cos(a),s=Math.sin(a);
+    return new Float32Array([1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1]);
+}
+function transl(x,y,z) {
+    const m = new Float32Array(16);
+    m[0]=1; m[5]=1; m[10]=1; m[15]=1;
+    m[12]=x; m[13]=y; m[14]=z;
+    return m;
+}
+
+// Mouse interaction
+let rotX_angle = 0.3, rotY_angle = 0;
+let zoom = 6;
+let dragging = false, lastX = 0, lastY = 0;
+let autoRotate = true;
+
+canvas.addEventListener('mousedown', e => { dragging=true; lastX=e.clientX; lastY=e.clientY; autoRotate=false; });
+canvas.addEventListener('mouseup', () => dragging=false);
+canvas.addEventListener('mousemove', e => {
+    if(!dragging) return;
+    rotY_angle += (e.clientX - lastX) * 0.01;
+    rotX_angle += (e.clientY - lastY) * 0.01;
+    lastX=e.clientX; lastY=e.clientY;
+});
+canvas.addEventListener('wheel', e => { zoom += e.deltaY * 0.01; zoom = Math.max(3, Math.min(12, zoom)); });
+
+let t = 0;
+function render() {
+    t += 0.005;
+    if(autoRotate) rotY_angle = t;
+
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    const proj  = perspective(60, canvas.width/canvas.height, 0.1, 100);
+    const trans = transl(0, 0, -zoom);
+    const rX    = rotX(rotX_angle);
+    const rY    = rotY(rotY_angle);
+    const model = mulMat(rY, rX);
+    const mv    = mulMat(trans, model);
+    const mvp   = mulMat(proj, mv);
+
+    gl.uniformMatrix4fv(mvpLoc, false, mvp);
+    gl.uniform1f(psLoc, 2.0);
+    gl.drawArrays(gl.POINTS, 0, NUM_POINTS);
+    requestAnimationFrame(render);
+}
+render();
+</script>
+</body>
+</html>
