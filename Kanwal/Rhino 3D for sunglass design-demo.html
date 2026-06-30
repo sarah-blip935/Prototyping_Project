@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rhino 3D - Sunglass Design Demo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #1a1a1a; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            flex-direction: column;
+            font-family: Arial;
+            overflow: hidden;
+        }
+        h1 { color: #d4af37; margin-bottom: 6px; font-size: 20px; text-align: center; }
+        #info { color: #aaa; font-size: 12px; margin-bottom: 10px; text-align: center; }
+        canvas { display: block; border: 1px solid #333; }
+        #stats { color: #888; font-size: 11px; margin-top: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>🕶️ Rhino 3D — Premium Sunglass Design</h1>
+    <p id="info">Drag to Rotate | Scroll to Zoom</p>
+    <canvas id="canvas"></canvas>
+    <p id="stats">Model: Aviator Style | NURBS Surface | Polished Metal Frame</p>
+
+<script>
+const canvas = document.getElementById('canvas');
+canvas.width = 700;
+canvas.height = 480;
+const gl = canvas.getContext('webgl', {antialias: true});
+gl.clearColor(0.1, 0.1, 0.1, 1.0);
+gl.enable(gl.DEPTH_TEST);
+
+const vsCode = `
+attribute vec3 aPos;
+attribute vec3 aNormal;
+attribute vec3 aColor;
+uniform mat4 uMVP;
+uniform mat4 uModel;
+varying vec3 vNormal;
+varying vec3 vColor;
+varying vec3 vPos;
+void main(void) {
+    gl_Position = uMVP * vec4(aPos, 1.0);
+    vNormal = mat3(uModel) * aNormal;
+    vColor = aColor;
+    vPos = aPos;
+}`;
+
+const fsCode = `
+precision mediump float;
+varying vec3 vNormal;
+varying vec3 vColor;
+varying vec3 vPos;
+void main(void) {
+    vec3 lightDir = normalize(vec3(0.5, 1.0, 0.8));
+    vec3 normal = normalize(vNormal);
+    float diff = max(dot(normal, lightDir), 0.0);
+    vec3 viewDir = normalize(vec3(0.0,0.0,1.0));
+    vec3 reflectDir = reflect(-lightDir, normal);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
+    vec3 ambient = vColor * 0.35;
+    vec3 diffuse = vColor * diff * 0.7;
+    vec3 specular = vec3(1.0) * spec * 0.6;
+    gl_FragColor = vec4(ambient + diffuse + specular, 1.0);
+}`;
+
+function makeShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+}
+const prog = gl.createProgram();
+gl.attachShader(prog, makeShader(gl.VERTEX_SHADER, vsCode));
+gl.attachShader(prog, makeShader(gl.FRAGMENT_SHADER, fsCode));
+gl.linkProgram(prog);
+gl.useProgram(prog);
+
+let verts = [];
+function addQuad(p1,p2,p3,p4, normal, color) {
+    function pushV(p) { verts.push(p[0],p[1],p[2], normal[0],normal[1],normal[2], color[0],color[1],color[2]); }
+    pushV(p1); pushV(p2); pushV(p3);
+    pushV(p1); pushV(p3); pushV(p4);
+}
+
+function addFrameRing(cx, cy, cz, rx, ry, segments, thickness, color) {
+    for(let i=0;i<segments;i++){
+        const a1 = (i/segments)*Math.PI*2;
+        const a2 = ((i+1)/segments)*Math.PI*2;
+        const p1o = [cx+Math.cos(a1)*(rx+thickness), cy+Math.sin(a1)*(ry+thickness), cz];
+        const p2o = [cx+Math.cos(a2)*(rx+thickness), cy+Math.sin(a2)*(ry+thickness), cz];
+        const p1i = [cx+Math.cos(a1)*rx, cy+Math.sin(a1)*ry, cz];
+        const p2i = [cx+Math.cos(a2)*rx, cy+Math.sin(a2)*ry, cz];
+        const dx = Math.cos(a1), dy = Math.sin(a1);
+        addQuad(p1i, p2i, p2o, p1o, [dx,dy,0], color);
+    }
+}
+
+function addLens(cx, cy, cz, rx, ry, segments, color) {
+    const center = [cx, cy, cz];
+    for(let i=0;i<segments;i++){
+        const a1 = (i/segments)*Math.PI*2;
+        const a2 = ((i+1)/segments)*Math.PI*2;
+        const p1 = [cx+Math.cos(a1)*rx, cy+Math.sin(a1)*ry, cz];
+        const p2 = [cx+Math.cos(a2)*rx, cy+Math.sin(a2)*ry, cz];
+        verts.push(center[0],center[1],center[2], 0,0,1, color[0],color[1],color[2]);
+        verts.push(p1[0],p1[1],p1[2], 0,0,1, color[0],color[1],color[2]);
+        verts.push(p2[0],p2[1],p2[2], 0,0,1, color[0],color[1],color[2]);
+    }
+}
+
+const gold = [0.85, 0.65, 0.13];
+const darkLens = [0.05, 0.08, 0.12];
+const darkLens2 = [0.08, 0.1, 0.15];
+
+addLens(-1.3, 0, 0, 0.9, 0.75, 40, darkLens);
+addFrameRing(-1.3, 0, 0.02, 0.9, 0.75, 40, 0.08, gold);
+
+addLens(1.3, 0, 0, 0.9, 0.75, 40, darkLens2);
+addFrameRing(1.3, 0, 0.02, 0.9, 0.75, 40, 0.08, gold);
+
+addQuad([-0.45,0.15,0],[0.45,0.15,0],[0.45,0.25,0.15],[-0.45,0.25,0.15], [0,1,0.3], gold);
+addQuad([-0.45,0.05,0],[0.45,0.05,0],[0.45,0.15,0.1],[-0.45,0.15,0.1], [0,0.8,0.3], gold);
+
+function addTemple(side, color) {
+    const x1 = side * 2.25, x2 = side * 4.2;
+    addQuad([x1,0.05,0],[x2,0.0,-1.5],[x2,0.12,-1.5],[x1,0.17,0], [0,1,0.2], color);
+    addQuad([x1,-0.05,0],[x1,0.05,0],[x2,0.0,-1.5],[x2,-0.1,-1.5], [side,0,0.3], color);
+}
+addTemple(-1, gold);
+addTemple(1, gold);
+
+function addNosePad(side) {
+    const x = side * 0.35;
+    addQuad([x-0.06,-0.15,0.05],[x+0.06,-0.15,0.05],[x+0.06,-0.35,0.15],[x-0.06,-0.35,0.15], [0,-1,0.5], [0.6,0.6,0.6]);
+}
+addNosePad(-1);
+addNosePad(1);
+
+const data = new Float32Array(verts);
+const buf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+const stride = 9*4;
+const posLoc = gl.getAttribLocation(prog, 'aPos');
+gl.enableVertexAttribArray(posLoc);
+gl.vertexAttribPointer(posLoc, 3, gl.FLOAT, false, stride, 0);
+const normLoc = gl.getAttribLocation(prog, 'aNormal');
+gl.enableVertexAttribArray(normLoc);
+gl.vertexAttribPointer(normLoc, 3, gl.FLOAT, false, stride, 3*4);
+const colLoc = gl.getAttribLocation(prog, 'aColor');
+gl.enableVertexAttribArray(colLoc);
+gl.vertexAttribPointer(colLoc, 3, gl.FLOAT, false, stride, 6*4);
+
+const mvpLoc = gl.getUniformLocation(prog, 'uMVP');
+const modelLoc = gl.getUniformLocation(prog, 'uModel');
+
+function mulMat(a, b) {
+    const r = new Float32Array(16);
+    for(let i=0;i<4;i++) for(let j=0;j<4;j++) for(let k=0;k<4;k++)
+        r[j*4+i] += a[k*4+i]*b[j*4+k];
+    return r;
+}
+function perspective(fov, asp, n, f) {
+    const t = Math.tan(fov*Math.PI/360);
+    const r = new Float32Array(16);
+    r[0]=1/(asp*t); r[5]=1/t; r[10]=(f+n)/(n-f); r[11]=-1; r[14]=(2*f*n)/(n-f);
+    return r;
+}
+function rotY(a) { const c=Math.cos(a),s=Math.sin(a); return new Float32Array([c,0,-s,0, 0,1,0,0, s,0,c,0, 0,0,0,1]); }
+function rotX(a) { const c=Math.cos(a),s=Math.sin(a); return new Float32Array([1,0,0,0, 0,c,s,0, 0,-s,c,0, 0,0,0,1]); }
+function transl(x,y,z) { const m=new Float32Array(16); m[0]=1;m[5]=1;m[10]=1;m[15]=1; m[12]=x;m[13]=y;m[14]=z; return m; }
+
+let rotY_a = 0.3, rotX_a = 0.1, zoom = 7;
+let dragging=false, lastX=0, lastY=0, autoRotate=true;
+canvas.addEventListener('mousedown', e=>{dragging=true; lastX=e.clientX; lastY=e.clientY; autoRotate=false;});
+canvas.addEventListener('mouseup', ()=>dragging=false);
+canvas.addEventListener('mousemove', e=>{
+    if(!dragging) return;
+    rotY_a += (e.clientX-lastX)*0.01;
+    rotX_a += (e.clientY-lastY)*0.01;
+    lastX=e.clientX; lastY=e.clientY;
+});
+canvas.addEventListener('wheel', e=>{ zoom += e.deltaY*0.01; zoom=Math.max(4,Math.min(15,zoom)); });
+
+let t=0;
+function render(){
+    t += 0.006;
+    if(autoRotate) rotY_a = t;
+    gl.viewport(0,0,canvas.width,canvas.height);
+    gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+    const proj = perspective(45, canvas.width/canvas.height, 0.1, 100);
+    const trans = transl(0,0,-zoom);
+    const model = mulMat(rotY(rotY_a), rotX(rotX_a));
+    const mv = mulMat(trans, model);
+    const mvp = mulMat(proj, mv);
+    gl.uniformMatrix4fv(mvpLoc, false, mvp);
+    gl.uniformMatrix4fv(modelLoc, false, model);
+    gl.drawArrays(gl.TRIANGLES, 0, data.length/9);
+    requestAnimationFrame(render);
+}
+render();
+</script>
+</body>
+</html>
