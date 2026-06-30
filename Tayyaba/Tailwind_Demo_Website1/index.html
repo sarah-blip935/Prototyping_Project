@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NexaAI — Build Smarter Workflows</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body class="mesh-bg dot-grid">
+
+  <!-- NAVBAR -->
+  <nav class="nav-glass fixed top-0 w-full z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg btn-primary flex items-center justify-center text-white font-display font-bold text-sm">N</div>
+        <span class="font-display font-bold text-xl text-white">Nexa<span class="grad-text">AI</span></span>
+      </div>
+      <div class="hidden md:flex items-center gap-8 text-sm text-slate-400">
+        <a href="#features" class="hover:text-white transition">Features</a>
+        <a href="#how" class="hover:text-white transition">How It Works</a>
+        <a href="#pricing" class="hover:text-white transition">Pricing</a>
+        <a href="#testimonials" class="hover:text-white transition">Reviews</a>
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="btn-outline px-4 py-2 rounded-lg text-sm text-slate-300 hidden md:block">Log In</button>
+        <button class="btn-primary px-5 py-2 rounded-lg text-sm text-white font-medium">Get Started Free</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-glow min-h-screen flex items-center pt-20">
+    <div class="max-w-7xl mx-auto px-6 py-24 text-center">
+      <div class="inline-flex items-center gap-2 badge px-4 py-1.5 rounded-full text-xs font-medium mb-8 fade-in">
+        <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+        New · Workflow Automation v2.5 is live
+      </div>
+      <h1 class="font-display text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6 fade-in delay-1">
+        Build Workflows<br/>That Think <span class="grad-text">For You</span>
+      </h1>
+      <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 fade-in delay-2 leading-relaxed">
+        NexaAI connects your tools, automates repetitive tasks, and delivers intelligent insights — so your team can focus on what actually matters.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 fade-in delay-3">
+        <button class="btn-primary px-8 py-3.5 rounded-xl text-white font-semibold text-base">
+          Start for Free →
+        </button>
+        <button class="btn-outline px-8 py-3.5 rounded-xl text-slate-300 font-medium text-base flex items-center gap-2">
+          <svg class="w-4 h-4 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.84A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.27l9.344-5.891a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+          Watch Demo
+        </button>
+      </div>
+
+      <!-- Hero Dashboard Mockup -->
+      <div class="mt-20 float-anim max-w-4xl mx-auto">
+        <div class="glass rounded-2xl p-1 shadow-2xl shadow-indigo-900/30">
+          <div class="bg-slate-900/80 rounded-xl p-6">
+            <div class="flex items-center gap-2 mb-6">
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <div class="ml-4 flex-1 bg-slate-800 rounded-md h-6 max-w-xs"></div>
+            </div>
+            <div class="grid grid-cols-3 gap-4 mb-4">
+              <div class="glass rounded-xl p-4 text-left">
+                <p class="text-slate-500 text-xs mb-1">Tasks Automated</p>
+                <p class="stat-num grad-text text-3xl">12.4k</p>
+              </div>
+              <div class="glass rounded-xl p-4 text-left">
+                <p class="text-slate-500 text-xs mb-1">Time Saved</p>
+                <p class="stat-num grad-text-cyan text-3xl">340h</p>
+              </div>
+              <div class="glass rounded-xl p-4 text-left">
+                <p class="text-slate-500 text-xs mb-1">Accuracy</p>
+                <p class="stat-num text-emerald-400 text-3xl">99.2%</p>
+              </div>
+            </div>
+            <div class="glass rounded-xl p-4">
+              <p class="text-slate-500 text-xs mb-3">Weekly Performance</p>
+              <div class="flex items-end gap-2 h-16">
+                <div class="flex-1 bg-indigo-500/40 rounded-t" style="height:40%"></div>
+                <div class="flex-1 bg-indigo-500/60 rounded-t" style="height:60%"></div>
+                <div class="flex-1 bg-indigo-400/70 rounded-t" style="height:75%"></div>
+                <div class="flex-1 bg-purple-500/60 rounded-t" style="height:55%"></div>
+                <div class="flex-1 bg-indigo-500/80 rounded-t" style="height:90%"></div>
+                <div class="flex-1 bg-purple-400/70 rounded-t" style="height:70%"></div>
+                <div class="flex-1 bg-pink-500/70 rounded-t" style="height:100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAND -->
+  <section class="border-y border-white/5 py-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <p class="stat-num grad-text mb-1">50K+</p>
+        <p class="text-slate-500 text-sm">Active Users</p>
+      </div>
+      <div>
+        <p class="stat-num grad-text-cyan mb-1">200M</p>
+        <p class="text-slate-500 text-sm">Tasks Automated</p>
+      </div>
+      <div>
+        <p class="stat-num text-emerald-400 mb-1">99.9%</p>
+        <p class="text-slate-500 text-sm">Uptime SLA</p>
+      </div>
+      <div>
+        <p class="stat-num text-pink-400 mb-1">4.9★</p>
+        <p class="text-slate-500 text-sm">Average Rating</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="py-28">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="badge px-3 py-1 rounded-full text-xs font-medium">Features</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
+          Everything You Need to <span class="grad-text">Move Fast</span>
+        </h2>
+        <p class="text-slate-400 max-w-xl mx-auto">Powerful tools designed for modern teams — no complexity, just results.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass rounded-2xl p-7">
+          <div class="w-11 h-11 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center mb-5 text-indigo-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2">Instant Automation</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Connect any app and automate in minutes — no code required. Drag, drop, deploy.</p>
+        </div>
+        <div class="glass rounded-2xl p-7">
+          <div class="w-11 h-11 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mb-5 text-purple-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2">Smart Data Pipelines</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Route, transform, and sync data across all your tools in real-time with zero latency.</p>
+        </div>
+        <div class="glass rounded-2xl p-7">
+          <div class="w-11 h-11 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center mb-5 text-pink-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 19.07a10 10 0 010-14.14"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2">AI Insights Engine</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Get actionable predictions and anomaly detection powered by GPT-level intelligence.</p>
+        </div>
+        <div class="glass rounded-2xl p-7">
+          <div class="w-11 h-11 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center mb-5 text-cyan-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2">Enterprise Security</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">SOC 2 Type II certified, end-to-end encryption, SSO, and full audit logs built-in.</p>
+        </div>
+        <div class="glass rounded-2xl p-7">
+          <div class="w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center mb-5 text-emerald-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2">Team Collaboration</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Real-time collaboration, shared workspaces, and role-based permissions for every team.</p>
+        </div>
+        <div class="glass rounded-2xl p-7">
+          <div class="w-11 h-11 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center mb-5 text-orange-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h3 class="font-display text-lg font-bold text-white mb-2">Smart Notifications</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">AI-prioritized alerts across Slack, email, and mobile — only what you actually need to see.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="py-24 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <span class="badge px-3 py-1 rounded-full text-xs font-medium">How It Works</span>
+      <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-4 mb-16">
+        Up and Running in <span class="grad-text-cyan">3 Steps</span>
+      </h2>
+      <div class="grid md:grid-cols-3 gap-8 relative">
+        <div class="hidden md:block absolute top-10 left-1/4 right-1/4 h-px bg-gradient-to-r from-indigo-500/50 via-purple-500/50 to-pink-500/50"></div>
+        <div>
+          <div class="w-16 h-16 rounded-2xl btn-primary flex items-center justify-center text-white font-display font-bold text-2xl mx-auto mb-6 shadow-lg shadow-indigo-500/30">1</div>
+          <h3 class="font-display text-xl font-bold text-white mb-3">Connect Your Tools</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Integrate with 200+ apps including Slack, Notion, HubSpot, and more in one click.</p>
+        </div>
+        <div>
+          <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-display font-bold text-2xl mx-auto mb-6 shadow-lg shadow-purple-500/30" style="background:linear-gradient(135deg,#a855f7,#ec4899)">2</div>
+          <h3 class="font-display text-xl font-bold text-white mb-3">Design Your Workflow</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Use our visual builder to create powerful automations. No coding knowledge needed.</p>
+        </div>
+        <div>
+          <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-display font-bold text-2xl mx-auto mb-6 shadow-lg shadow-pink-500/30" style="background:linear-gradient(135deg,#ec4899,#f97316)">3</div>
+          <h3 class="font-display text-xl font-bold text-white mb-3">Watch It Work</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Your workflows run 24/7 automatically. Monitor results in your real-time dashboard.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="py-28 border-t border-white/5">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="badge px-3 py-1 rounded-full text-xs font-medium">Pricing</span>
+        <h2 class="font-display text-4xl md:text-5xl font-bold text-white mt-4 mb-4">
+          Simple, <span class="grad-text">Transparent</span> Pricing
+        </h2>
+        <p class="text-slate-400">No hidden fees. Cancel anytime.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 items-stretch">
+        <div class="glass rounded-2xl p-8 flex flex-col">
+          <p class="text-slate-400 text-sm font-medium mb-2">Starter</p>
+          <p class="font-display text-4xl font-extrabold text-white mb-1">Free</p>
+          <p class="text-slate-500 text-sm mb-8">Perfect to get started</p>
+          <ul class="space-y-3 text-sm text-slate-300 mb-10 flex-1">
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> 5 active workflows</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> 1,000 tasks/month</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> 20+ integrations</li>
+            <li class="flex items-center gap-2"><span class="text-slate-600">✗</span> AI Insights</li>
+            <li class="flex items-center gap-2"><span class="text-slate-600">✗</span> Priority support</li>
+          </ul>
+          <button class="btn-outline w-full py-3 rounded-xl text-sm text-slate-300 font-medium">Get Started</button>
+        </div>
+        <div class="pricing-hot rounded-2xl p-8 flex flex-col relative">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 badge px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap">Most Popular</div>
+          <p class="text-indigo-300 text-sm font-medium mb-2">Pro</p>
+          <p class="font-display text-4xl font-extrabold text-white mb-1">$29<span class="text-slate-400 text-lg font-normal">/mo</span></p>
+          <p class="text-slate-400 text-sm mb-8">For growing teams</p>
+          <ul class="space-y-3 text-sm text-slate-300 mb-10 flex-1">
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Unlimited workflows</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> 100K tasks/month</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> 200+ integrations</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> AI Insights Engine</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Priority support</li>
+          </ul>
+          <button class="btn-primary w-full py-3 rounded-xl text-sm text-white font-semibold">Start Pro Trial</button>
+        </div>
+        <div class="glass rounded-2xl p-8 flex flex-col">
+          <p class="text-slate-400 text-sm font-medium mb-2">Enterprise</p>
+          <p class="font-display text-4xl font-extrabold text-white mb-1">Custom</p>
+          <p class="text-slate-500 text-sm mb-8">For large organizations</p>
+          <ul class="space-y-3 text-sm text-slate-300 mb-10 flex-1">
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Unlimited everything</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Dedicated infrastructure</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> SSO + SAML</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> SLA guarantee</li>
+            <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> 24/7 dedicated support</li>
+          </ul>
+          <button class="btn-outline w-full py-3 rounded-xl text-sm text-slate-300 font-medium">Contact Sales</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="py-24 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <h2 class="font-display text-4xl font-bold text-white">
+          Loved by <span class="grad-text">10,000+ Teams</span>
+        </h2>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="glass rounded-2xl p-7">
+          <div class="flex gap-1 mb-4">
+            <span class="text-yellow-400 text-sm">★★★★★</span>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed mb-6">"NexaAI cut our manual work by 80%. The AI suggestions actually understand what we're trying to do — it's like having an extra engineer on the team."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full avatar-ring bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-bold text-xs">SJ</div>
+            <div>
+              <p class="text-white text-sm font-medium">Sarah Johnson</p>
+              <p class="text-slate-500 text-xs">CTO, TechFlow Inc.</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-7">
+          <div class="flex gap-1 mb-4">
+            <span class="text-yellow-400 text-sm">★★★★★</span>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed mb-6">"We replaced 3 different tools with NexaAI. Setup took 20 minutes and everything just worked. The visual builder is genuinely impressive."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full avatar-ring bg-gradient-to-br from-pink-400 to-orange-400 flex items-center justify-center text-white font-bold text-xs">MR</div>
+            <div>
+              <p class="text-white text-sm font-medium">Marcus Rivera</p>
+              <p class="text-slate-500 text-xs">Head of Ops, Scalable</p>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-7">
+          <div class="flex gap-1 mb-4">
+            <span class="text-yellow-400 text-sm">★★★★★</span>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed mb-6">"The support team is outstanding. But honestly we never need them — the product just works flawlessly. Best SaaS investment we've made."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full avatar-ring bg-gradient-to-br from-cyan-400 to-emerald-400 flex items-center justify-center text-white font-bold text-xs">AK</div>
+            <div>
+              <p class="text-white text-sm font-medium">Anika Kumar</p>
+              <p class="text-slate-500 text-xs">Product Lead, Orbit</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-28 border-t border-white/5">
+    <div class="max-w-3xl mx-auto px-6 text-center">
+      <h2 class="font-display text-4xl md:text-5xl font-extrabold text-white mb-6 leading-tight">
+        Ready to Automate<br/><span class="grad-text">Your Entire Workflow?</span>
+      </h2>
+      <p class="text-slate-400 text-lg mb-10">Join 50,000+ teams already saving 10+ hours per week. No credit card required.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <input type="email" placeholder="Enter your work email" class="bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 text-white text-sm w-full sm:w-72 focus:outline-none focus:border-indigo-500 placeholder-slate-500"/>
+        <button class="btn-primary px-7 py-3.5 rounded-xl text-white font-semibold text-sm whitespace-nowrap w-full sm:w-auto">
+          Start Free Trial →
+        </button>
+      </div>
+      <p class="text-slate-600 text-xs mt-4">14-day free trial · No credit card · Cancel anytime</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/5 py-12">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg btn-primary flex items-center justify-center text-white font-bold text-xs">N</div>
+        <span class="font-display font-bold text-white">Nexa<span class="grad-text">AI</span></span>
+      </div>
+      <div class="flex gap-8 text-sm text-slate-500">
+        <a href="#" class="hover:text-white transition">Privacy</a>
+        <a href="#" class="hover:text-white transition">Terms</a>
+        <a href="#" class="hover:text-white transition">Blog</a>
+        <a href="#" class="hover:text-white transition">Careers</a>
+      </div>
+      <p class="text-slate-600 text-sm">© 2026 NexaAI. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
