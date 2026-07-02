@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project contains a Python-based CFD (Computational Fluid Dynamics) simulation of the classic Lid-Driven Cavity Flow problem, solved using the finite difference method for the 2D incompressible Navier-Stokes equations. It serves as a lightweight, browser-based alternative to commercial CFD software such as Star-CCM+.
+This project contains a Python-based CFD (Computational Fluid Dynamics) simulation of the classic Lid-Driven Cavity Flow problem, solved using the finite difference method for the 2D incompressible Navier-Stokes equations. 
 
 ## Files Included
 
