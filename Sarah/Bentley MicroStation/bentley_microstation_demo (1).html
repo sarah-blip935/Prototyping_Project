@@ -1,0 +1,490 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .ms-wrap { padding: 1.5rem 0; max-width: 680px; }
+  .ms-header { display: flex; align-items: center; gap: 14px; margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 0.5px solid var(--border); }
+  .ms-logo { width: 48px; height: 48px; border-radius: 10px; background: #0057A8; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .ms-logo svg { width: 30px; height: 30px; }
+  .ms-header-text h1 { font-size: 20px; font-weight: 500; color: var(--text-primary); }
+  .ms-header-text p { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
+  .ms-badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; background: var(--bg-accent); color: var(--text-accent); margin-top: 5px; font-weight: 500; }
+
+  .steps-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .step-dot { width: 32px; height: 32px; border-radius: 50%; border: 0.5px solid var(--border-strong); background: var(--surface-1); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .step-dot:hover { border-color: #0057A8; color: #0057A8; }
+  .step-dot.active { background: #0057A8; color: #fff; border-color: #0057A8; }
+  .step-dot.done { background: var(--bg-success); color: var(--text-success); border-color: var(--border-success); }
+
+  .step-card { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .step-card-header { background: #0057A8; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  .step-num { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.15); border-radius: 20px; padding: 2px 8px; }
+  .step-title { font-size: 16px; font-weight: 500; color: #fff; }
+  .step-body { padding: 20px; }
+
+  .visual-block { background: var(--surface-1); border: 0.5px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+  .vb-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+
+  .cad-screen { background: #1a1f2e; border-radius: 6px; padding: 12px; position: relative; font-family: monospace; }
+  .cad-topbar { display: flex; gap: 6px; margin-bottom: 8px; }
+  .cad-topbar span { font-size: 11px; color: #7fa8d0; padding: 2px 10px; border-radius: 3px; cursor: default; }
+  .cad-topbar span:first-child { background: rgba(0,87,168,0.4); color: #90c4ff; }
+  .cad-viewport { width: 100%; height: 140px; background: #141820; border-radius: 4px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .grid-lines { position: absolute; inset: 0; opacity: 0.12; }
+  .cad-label { font-size: 11px; color: #4a7fa5; position: absolute; bottom: 6px; right: 8px; }
+
+  .tools-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .tool-chip { font-size: 12px; padding: 4px 10px; border-radius: 6px; background: rgba(0,87,168,0.1); border: 0.5px solid rgba(0,87,168,0.25); color: #0057A8; font-family: monospace; display: flex; align-items: center; gap: 5px; }
+
+  .instructions { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .instructions li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--text-primary); line-height: 1.6; }
+  .inst-num { width: 22px; height: 22px; border-radius: 50%; background: #0057A8; color: #fff; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .key-chip { display: inline-block; background: var(--surface-1); border: 0.5px solid var(--border-strong); border-radius: 4px; padding: 1px 6px; font-size: 11px; font-family: monospace; color: var(--text-secondary); }
+
+  .tip-box { display: flex; gap: 10px; background: var(--bg-accent); border: 0.5px solid var(--border-accent); border-radius: 8px; padding: 12px 14px; margin-top: 14px; }
+  .tip-box i { color: var(--text-accent); font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+  .tip-box p { font-size: 13px; color: var(--text-accent); line-height: 1.5; }
+
+  .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .nav-btn { padding: 8px 18px; border-radius: var(--radius); border: 0.5px solid var(--border-strong); background: var(--surface-1); color: var(--text-primary); font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: background 0.1s; }
+  .nav-btn:hover { background: var(--surface-0); }
+  .nav-btn.primary { background: #0057A8; color: #fff; border-color: #0057A8; }
+  .nav-btn.primary:hover { background: #004a91; }
+  .nav-btn:disabled { opacity: 0.4; cursor: default; }
+  .progress-text { font-size: 12px; color: var(--text-muted); }
+
+  .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .info-cell { background: var(--surface-1); border: 0.5px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .info-cell .ic-label { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
+  .info-cell .ic-val { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+
+  .feature-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .feature-tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; background: var(--bg-success); color: var(--text-success); border: 0.5px solid var(--border-success); }
+</style>
+
+<div class="ms-wrap">
+  <div class="ms-header">
+    <div class="ms-logo">
+      <svg viewBox="0 0 30 30" fill="none">
+        <rect x="3" y="3" width="10" height="10" stroke="white" stroke-width="1.5" fill="none"/>
+        <rect x="17" y="3" width="10" height="10" stroke="white" stroke-width="1.5" fill="none"/>
+        <rect x="3" y="17" width="10" height="10" stroke="white" stroke-width="1.5" fill="none"/>
+        <rect x="17" y="17" width="10" height="10" stroke="#7fb8ff" stroke-width="1.5" fill="rgba(127,184,255,0.2)"/>
+        <line x1="8" y1="3" x2="22" y2="27" stroke="white" stroke-width="1" opacity="0.4"/>
+      </svg>
+    </div>
+    <div class="ms-header-text">
+      <h1>Bentley MicroStation</h1>
+      <p>Professional CAD/BIM Software — Step-by-Step Demo</p>
+      <span class="ms-badge">Assignment Demo · Sir Noman Mazher</span>
+    </div>
+  </div>
+
+  <div class="steps-nav" id="stepsNav"></div>
+
+  <div class="step-card" id="stepCard"></div>
+
+  <div class="nav-btns">
+    <button class="nav-btn" id="prevBtn" onclick="changeStep(-1)">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i> Previous
+    </button>
+    <span class="progress-text" id="progressText"></span>
+    <button class="nav-btn primary" id="nextBtn" onclick="changeStep(1)">
+      Next <i class="ti ti-arrow-right" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {
+    title: "Introduction to MicroStation",
+    icon: "ti-info-circle",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">What is MicroStation?</div>
+        <div class="info-grid">
+          <div class="info-cell"><div class="ic-label">Developer</div><div class="ic-val">Bentley Systems</div></div>
+          <div class="info-cell"><div class="ic-label">First Released</div><div class="ic-val">1985 (v1.0)</div></div>
+          <div class="info-cell"><div class="ic-label">File Format</div><div class="ic-val">.DGN (Design File)</div></div>
+          <div class="info-cell"><div class="ic-label">Use Case</div><div class="ic-val">CAD + BIM + Infrastructure</div></div>
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span>MicroStation is a <strong>professional CAD software</strong> used by engineers, architects, and designers worldwide for 2D drafting and 3D modeling.</span></li>
+        <li><span class="inst-num">2</span><span>It supports <strong>AEC (Architecture, Engineering & Construction)</strong> industries — bridges, roads, buildings, and infrastructure projects.</span></li>
+        <li><span class="inst-num">3</span><span>MicroStation uses <strong>.DGN</strong> file format (Design) and also supports importing/exporting <strong>.DWG (AutoCAD)</strong> files.</span></li>
+        <li><span class="inst-num">4</span><span>It is widely used in <strong>NESPAK, FWO, NHA</strong> and other engineering firms in Pakistan for infrastructure design.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-bulb" aria-hidden="true"></i>
+        <p><strong>Key advantage:</strong> MicroStation handles very large, complex drawings (like entire highway designs) without slowing down — making it preferred over AutoCAD in heavy infrastructure projects.</p>
+      </div>
+    `
+  },
+  {
+    title: "Installation & Interface Overview",
+    icon: "ti-layout-dashboard",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">MicroStation Interface Layout</div>
+        <div class="cad-screen">
+          <div class="cad-topbar">
+            <span>File</span><span>Edit</span><span>View</span><span>Element</span><span>Settings</span><span>Tools</span><span>Utilities</span>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <div style="width: 32px; background: #1e2438; border-radius: 4px; display: flex; flex-direction: column; gap: 4px; padding: 6px 4px; align-items: center;">
+              <div style="width: 14px; height: 14px; background: rgba(0,87,168,0.6); border-radius: 2px;"></div>
+              <div style="width: 14px; height: 14px; background: rgba(127,168,208,0.3); border-radius: 2px;"></div>
+              <div style="width: 14px; height: 14px; background: rgba(127,168,208,0.3); border-radius: 2px;"></div>
+              <div style="width: 14px; height: 14px; background: rgba(127,168,208,0.3); border-radius: 2px;"></div>
+              <div style="width: 14px; height: 14px; background: rgba(127,168,208,0.3); border-radius: 2px;"></div>
+            </div>
+            <div style="flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; height: 120px;">
+              <div style="background: #141820; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #4a7fa5;">Top View</div>
+              <div style="background: #1a2535; border-radius: 3px; position: relative; overflow: hidden;">
+                <svg width="100%" height="100%" viewBox="0 0 80 60">
+                  <defs>
+                    <pattern id="g" width="8" height="8" patternUnits="userSpaceOnUse">
+                      <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#2a3a52" stroke-width="0.5"/>
+                    </pattern>
+                  </defs>
+                  <rect fill="url(#g)" width="80" height="60"/>
+                  <rect x="15" y="15" width="30" height="20" stroke="#00aaff" stroke-width="1.2" fill="none"/>
+                  <line x1="30" y1="15" x2="45" y2="8" stroke="#00aaff" stroke-width="1.2"/>
+                  <line x1="45" y1="8" x2="75" y2="8" stroke="#00aaff" stroke-width="1.2"/>
+                  <line x1="75" y1="8" x2="60" y2="15" stroke="#00aaff" stroke-width="0.8" stroke-dasharray="2"/>
+                  <text x="4" y="58" fill="#2a5a8a" font-size="7">Front View</text>
+                </svg>
+              </div>
+              <div style="background: #141820; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #4a7fa5;">Side View</div>
+              <div style="background: #141820; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #4a7fa5;">Isometric</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span>Download MicroStation from <strong>Bentley Systems website</strong> (student license available via <strong>Bentley Academic Program</strong> — free for students).</span></li>
+        <li><span class="inst-num">2</span><span>After installation, launch MicroStation. You see the <strong>4-viewport layout</strong>: Top, Front, Side, and Isometric/3D view — similar to AutoCAD but more advanced.</span></li>
+        <li><span class="inst-num">3</span><span>The <strong>Tool Box</strong> (left sidebar) contains drawing tools. The <strong>Primary Tools</strong> toolbar at top has the most-used commands.</span></li>
+        <li><span class="inst-num">4</span><span>The <strong>Status Bar</strong> at the bottom shows coordinates (X, Y, Z) and current element snap settings.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-school" aria-hidden="true"></i>
+        <p>Bentley offers <strong>free student licenses</strong> at <em>bentley.com/education</em> — you can register with your university email and get full MicroStation access.</p>
+      </div>
+    `
+  },
+  {
+    title: "Creating a New DGN File",
+    icon: "ti-file-plus",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">New File Setup</div>
+        <div class="cad-screen">
+          <div style="background: #1e2438; border-radius: 6px; padding: 14px; font-size: 12px; color: #90c4ff;">
+            <div style="color: #7fa8d0; font-size: 10px; margin-bottom: 10px; letter-spacing: 0.05em;">NEW DESIGN FILE</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div>
+                <div style="color: #4a7fa5; font-size: 10px; margin-bottom: 3px;">Seed File</div>
+                <div style="background: #141820; padding: 5px 8px; border-radius: 3px; font-size: 11px; color: #fff;">seed2d-m.dgn</div>
+              </div>
+              <div>
+                <div style="color: #4a7fa5; font-size: 10px; margin-bottom: 3px;">Working Units</div>
+                <div style="background: #141820; padding: 5px 8px; border-radius: 3px; font-size: 11px; color: #00aaff;">Millimeters (mm)</div>
+              </div>
+              <div>
+                <div style="color: #4a7fa5; font-size: 10px; margin-bottom: 3px;">Format</div>
+                <div style="background: #141820; padding: 5px 8px; border-radius: 3px; font-size: 11px; color: #fff;">.DGN V8i</div>
+              </div>
+              <div>
+                <div style="color: #4a7fa5; font-size: 10px; margin-bottom: 3px;">Grid</div>
+                <div style="background: #141820; padding: 5px 8px; border-radius: 3px; font-size: 11px; color: #fff;">1mm × 1mm</div>
+              </div>
+            </div>
+            <div style="margin-top: 10px; background: rgba(0,87,168,0.3); border-radius: 4px; padding: 6px 8px; font-size: 11px; color: #90c4ff;">
+              ✓ File Name: MyFirstDesign.dgn
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span>Go to <span class="key-chip">File</span> → <span class="key-chip">New</span>. A dialog appears to configure your new design file.</span></li>
+        <li><span class="inst-num">2</span><span>Choose a <strong>Seed File</strong> — this sets the units and template. For metric use <strong>seed2d-m.dgn</strong>, for imperial use <strong>seed2d-ft.dgn</strong>.</span></li>
+        <li><span class="inst-num">3</span><span>Set your <strong>Working Units</strong>: Master Units = mm or meters, Sub Units = mm. This is critical — all dimensions will follow this.</span></li>
+        <li><span class="inst-num">4</span><span>Name your file (e.g., <code>MyFirstDesign.dgn</code>) and click <span class="key-chip">OK</span>. The blank design canvas opens.</span></li>
+        <li><span class="inst-num">5</span><span>Press <span class="key-chip">F</span> to fit the view, and press <span class="key-chip">Ctrl+G</span> to toggle the grid display.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-bulb" aria-hidden="true"></i>
+        <p><strong>Seed File is like a template</strong> — it pre-sets your units, text styles, and layer structure so you don't have to configure everything from scratch each time.</p>
+      </div>
+    `
+  },
+  {
+    title: "Drawing Basic 2D Elements",
+    icon: "ti-pencil",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">Drawing Canvas Preview</div>
+        <div class="cad-screen">
+          <div class="cad-viewport">
+            <svg width="100%" height="100%" viewBox="0 0 300 130">
+              <defs>
+                <pattern id="grid" width="15" height="15" patternUnits="userSpaceOnUse">
+                  <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#1e2a3a" stroke-width="0.5"/>
+                </pattern>
+              </defs>
+              <rect fill="url(#grid)" width="300" height="130"/>
+              <line x1="20" y1="110" x2="120" y2="110" stroke="#00aaff" stroke-width="1.5"/>
+              <rect x="140" y="70" width="50" height="40" stroke="#00ff88" stroke-width="1.5" fill="none"/>
+              <circle cx="245" cy="90" r="25" stroke="#ffaa00" stroke-width="1.5" fill="none"/>
+              <polyline points="20,80 50,50 80,70 110,40" stroke="#ff6688" stroke-width="1.5" fill="none"/>
+              <text x="20" y="125" fill="#4a7fa5" font-size="7">Line</text>
+              <text x="148" y="125" fill="#4a7fa5" font-size="7">Rectangle</text>
+              <text x="230" y="125" fill="#4a7fa5" font-size="7">Circle</text>
+              <text x="20" y="45" fill="#4a7fa5" font-size="7">SmartLine</text>
+              <circle cx="20" cy="80" r="2" fill="#00aaff"/>
+              <circle cx="120" cy="110" r="2" fill="#00aaff"/>
+            </svg>
+          </div>
+          <div class="tools-row">
+            <span class="tool-chip"><i class="ti ti-minus" style="font-size:13px;" aria-hidden="true"></i> Line Tool</span>
+            <span class="tool-chip"><i class="ti ti-square" style="font-size:13px;" aria-hidden="true"></i> Shape</span>
+            <span class="tool-chip"><i class="ti ti-circle" style="font-size:13px;" aria-hidden="true"></i> Circle</span>
+            <span class="tool-chip"><i class="ti ti-pencil" style="font-size:13px;" aria-hidden="true"></i> SmartLine</span>
+          </div>
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span><strong>Line Tool:</strong> Go to <span class="key-chip">Tasks</span> → <span class="key-chip">Drawing</span> → select <strong>Place Line</strong>. Click two points on canvas. Press <span class="key-chip">Reset (Right-click)</span> to end.</span></li>
+        <li><span class="inst-num">2</span><span><strong>Rectangle/Shape:</strong> Use <strong>Place Block</strong> or <strong>Place Shape</strong>. Click first corner, then drag to opposite corner and click.</span></li>
+        <li><span class="inst-num">3</span><span><strong>Circle:</strong> Use <strong>Place Circle by Center</strong>. Click the center point, then click a point on the radius.</span></li>
+        <li><span class="inst-num">4</span><span><strong>SmartLine:</strong> The most powerful tool — draws connected lines AND arcs. Press <span class="key-chip">A</span> key mid-command to switch between line and arc mode.</span></li>
+        <li><span class="inst-num">5</span><span>To enter exact coordinates, type in the <strong>Key-in field</strong> (bottom): <span class="key-chip">XY=100,50</span> to place at exact X=100, Y=50.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-keyboard" aria-hidden="true"></i>
+        <p><strong>AccuDraw shortcut:</strong> Press <span class="key-chip">Spacebar</span> to activate AccuDraw input box. Type distances directly (e.g., 200 then Tab for 200mm line) — this is MicroStation's signature precision input system.</p>
+      </div>
+    `
+  },
+  {
+    title: "Levels (Layers) Management",
+    icon: "ti-stack-2",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">Level Manager (Like AutoCAD Layers)</div>
+        <div class="cad-screen">
+          <div style="background: #1e2438; border-radius: 5px; padding: 10px; font-size: 11px;">
+            <div style="display: flex; justify-content: space-between; color: #4a7fa5; font-size: 10px; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 0.5px solid #2a3a52;">
+              <span>Level Name</span><span>Color</span><span>On</span><span>Lock</span>
+            </div>
+            ${[
+              { name: 'Walls', color: '#fff', on: true, lock: false },
+              { name: 'Doors', color: '#00aaff', on: true, lock: false },
+              { name: 'Dimensions', color: '#ffaa00', on: true, lock: true },
+              { name: 'Text', color: '#00ff88', on: false, lock: false },
+              { name: 'Hidden Lines', color: '#ff4444', on: true, lock: false },
+            ].map(l => `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 0.5px solid #1a2030; color: ${l.on ? '#90c4ff' : '#3a5a7a'};">
+                <span style="width: 100px;">${l.name}</span>
+                <span style="width: 14px; height: 14px; background: ${l.color}; border-radius: 2px; opacity: ${l.on ? 1 : 0.3};"></span>
+                <span>${l.on ? '👁' : '🔴'}</span>
+                <span>${l.lock ? '🔒' : '—'}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span>In MicroStation, <strong>Layers are called "Levels"</strong>. Open Level Manager via <span class="key-chip">Settings</span> → <span class="key-chip">Level</span> → <span class="key-chip">Manager</span>.</span></li>
+        <li><span class="inst-num">2</span><span>Click <strong>"New Level"</strong> button to create a level. Give it a name like <em>Walls</em>, <em>Doors</em>, <em>Furniture</em>, etc.</span></li>
+        <li><span class="inst-num">3</span><span>Assign a <strong>color and line style</strong> to each level so different elements are visually distinct on screen.</span></li>
+        <li><span class="inst-num">4</span><span>To switch active level: use the <strong>Level dropdown</strong> in the Primary toolbar, or press <span class="key-chip">Ctrl+L</span>.</span></li>
+        <li><span class="inst-num">5</span><span>Toggle visibility with the <strong>eye icon</strong>. Lock levels to prevent accidental edits with the <strong>lock icon</strong>.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-bulb" aria-hidden="true"></i>
+        <p><strong>Good practice:</strong> Always draw on the correct level before placing elements. Never put everything on level 0 (Default) — organize by element type just like in professional CAD standards.</p>
+      </div>
+    `
+  },
+  {
+    title: "Adding Dimensions & Annotations",
+    icon: "ti-ruler",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">Dimensioning a Shape</div>
+        <div class="cad-screen">
+          <div class="cad-viewport">
+            <svg width="100%" height="100%" viewBox="0 0 300 130">
+              <defs>
+                <pattern id="grid2" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <path d="M 10 0 L 0 0 0 10" fill="none" stroke="#1e2a3a" stroke-width="0.4"/>
+                </pattern>
+                <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#ffaa00"/>
+                </marker>
+                <marker id="arrl" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto-start-reverse">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#ffaa00"/>
+                </marker>
+              </defs>
+              <rect fill="url(#grid2)" width="300" height="130"/>
+              <rect x="60" y="30" width="140" height="70" stroke="#00aaff" stroke-width="1.5" fill="none"/>
+              <line x1="60" y1="15" x2="200" y2="15" stroke="#ffaa00" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+              <text x="125" y="12" fill="#ffaa00" font-size="9" text-anchor="middle">140 mm</text>
+              <line x1="215" y1="30" x2="215" y2="100" stroke="#ffaa00" stroke-width="1" marker-start="url(#arrl)" marker-end="url(#arr)"/>
+              <text x="230" y="68" fill="#ffaa00" font-size="9">70 mm</text>
+              <line x1="60" y1="110" x2="60" y2="120" stroke="#ffaa00" stroke-width="0.8"/>
+              <line x1="200" y1="110" x2="200" y2="120" stroke="#ffaa00" stroke-width="0.8"/>
+              <line x1="200" y1="20" x2="215" y2="20" stroke="#ffaa00" stroke-width="0.8"/>
+              <line x1="200" y1="110" x2="215" y2="110" stroke="#ffaa00" stroke-width="0.8"/>
+              <text x="60" y="26" fill="#aaccff" font-size="7">A</text>
+              <text x="198" y="26" fill="#aaccff" font-size="7">B</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span>Select <strong>Dimension Size with Arrows</strong> from the Dimension toolbar (<span class="key-chip">Tasks</span> → <span class="key-chip">Drafting</span> → <span class="key-chip">Dimensioning</span>).</span></li>
+        <li><span class="inst-num">2</span><span>Click the <strong>first point</strong> of the element to dimension, then the <strong>second point</strong>, then drag the dimension line away and click to place.</span></li>
+        <li><span class="inst-num">3</span><span>For <strong>Angular dimensions</strong> use <strong>Dimension Angle</strong>. For radius use <strong>Dimension Radius</strong>. For diameter use <strong>Dimension Diameter</strong>.</span></li>
+        <li><span class="inst-num">4</span><span>To add <strong>text annotations</strong>, use <span class="key-chip">Tasks</span> → <span class="key-chip">Text</span> → <strong>Place Text</strong>. Click placement point and type your label.</span></li>
+        <li><span class="inst-num">5</span><span>Modify text size via <span class="key-chip">Element</span> → <span class="key-chip">Text Styles</span>. Set Active Text Height in the settings.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-ruler-measure" aria-hidden="true"></i>
+        <p><strong>Dimension Styles:</strong> Use <span class="key-chip">Element</span> → <span class="key-chip">Dimension Styles</span> to configure arrow size, text size, and units display globally — changes apply to all dimensions at once.</p>
+      </div>
+    `
+  },
+  {
+    title: "3D Modeling Basics",
+    icon: "ti-box",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">3D Extrusion Example</div>
+        <div class="cad-screen">
+          <div class="cad-viewport">
+            <svg width="100%" height="100%" viewBox="0 0 300 130">
+              <defs>
+                <pattern id="grid3" width="12" height="12" patternUnits="userSpaceOnUse">
+                  <path d="M 12 0 L 0 0 0 12" fill="none" stroke="#1a2030" stroke-width="0.4"/>
+                </pattern>
+              </defs>
+              <rect fill="url(#grid3)" width="300" height="130"/>
+              <polygon points="80,100 160,100 185,75 105,75" fill="rgba(0,87,168,0.25)" stroke="#00aaff" stroke-width="1.2"/>
+              <polygon points="80,100 80,40 105,15 105,75" fill="rgba(0,87,168,0.15)" stroke="#00aaff" stroke-width="1.2"/>
+              <polygon points="80,40 160,40 185,15 105,15" fill="rgba(0,87,168,0.35)" stroke="#00aaff" stroke-width="1.2"/>
+              <polygon points="160,100 160,40 185,15 185,75" fill="rgba(0,87,168,0.2)" stroke="#00aaff" stroke-width="1.2"/>
+              <line x1="80" y1="100" x2="80" y2="40" stroke="#00aaff" stroke-width="1.2"/>
+              <line x1="160" y1="100" x2="160" y2="40" stroke="#00aaff" stroke-width="1.2"/>
+              <line x1="185" y1="75" x2="185" y2="15" stroke="#00aaff" stroke-width="1.2"/>
+              <line x1="105" y1="75" x2="105" y2="15" stroke="#7fbfff" stroke-width="0.8" stroke-dasharray="3,2"/>
+              <line x1="80" y1="100" x2="80" y2="40" stroke="#7fbfff" stroke-width="0.8" stroke-dasharray="3,2"/>
+              <text x="205" y="48" fill="#ffaa00" font-size="9">Extrude</text>
+              <text x="205" y="60" fill="#4a7fa5" font-size="8">h = 60mm</text>
+              <line x1="195" y1="75" x2="195" y2="15" stroke="#ffaa00" stroke-width="0.8" stroke-dasharray="2,2"/>
+              <text x="60" y="108" fill="#4a7fa5" font-size="7">2D Profile → 3D Solid</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span>Switch to <strong>3D view</strong>: Go to <span class="key-chip">View</span> → <span class="key-chip">Attach View Groups</span> → select <strong>3D Views</strong>.</span></li>
+        <li><span class="inst-num">2</span><span><strong>Extrude a shape:</strong> Draw a 2D shape first, then go to <span class="key-chip">Tasks</span> → <span class="key-chip">3D Main</span> → <strong>Extrude</strong>. Click the shape and enter height (e.g., <em>60</em> for 60mm).</span></li>
+        <li><span class="inst-num">3</span><span><strong>Revolve:</strong> Draw a profile, define an axis, use <strong>Construct Solid of Revolution</strong> to spin it around the axis (good for columns, pipes).</span></li>
+        <li><span class="inst-num">4</span><span><strong>Boolean Operations:</strong> Use <strong>Subtract Solids</strong> / <strong>Union Solids</strong> to combine or cut 3D shapes — like cutting a hole through a wall.</span></li>
+        <li><span class="inst-num">5</span><span>To <strong>rotate the view</strong>, hold <span class="key-chip">Ctrl + Drag</span> with the middle mouse button, or use the <strong>Rotate View</strong> tool.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-box" aria-hidden="true"></i>
+        <p><strong>AccuDraw in 3D:</strong> AccuDraw works in 3D too! It automatically detects if you're drawing in XY, XZ, or YZ plane based on your current view, making 3D input precise and fast.</p>
+      </div>
+    `
+  },
+  {
+    title: "Saving, Printing & Exporting",
+    icon: "ti-device-floppy",
+    content: () => `
+      <div class="visual-block">
+        <div class="vb-label">Output Options</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 4px;">
+          ${[
+            { icon: 'ti-device-floppy', label: 'Save as .DGN', color: 'var(--bg-accent)', tc: 'var(--text-accent)', bc: 'var(--border-accent)' },
+            { icon: 'ti-file-export', label: 'Export .DWG', color: 'var(--bg-warning)', tc: 'var(--text-warning)', bc: 'var(--border-warning)' },
+            { icon: 'ti-file-type-pdf', label: 'Print to PDF', color: 'var(--bg-danger)', tc: 'var(--text-danger)', bc: 'var(--border-danger)' },
+          ].map(o => `
+            <div style="background: ${o.color}; border: 0.5px solid ${o.bc}; border-radius: 8px; padding: 12px; text-align: center;">
+              <i class="${o.icon}" style="font-size: 22px; color: ${o.tc};" aria-hidden="true"></i>
+              <div style="font-size: 12px; color: ${o.tc}; font-weight: 500; margin-top: 6px;">${o.label}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <ul class="instructions">
+        <li><span class="inst-num">1</span><span><strong>Save:</strong> Press <span class="key-chip">Ctrl+S</span> — MicroStation auto-saves to .DGN format. MicroStation also has a <strong>Backup file</strong> (.BAK) created automatically.</span></li>
+        <li><span class="inst-num">2</span><span><strong>Export to DWG (AutoCAD):</strong> <span class="key-chip">File</span> → <span class="key-chip">Export</span> → <span class="key-chip">DWG/DXF</span>. Select version (2013, 2018, etc.) and click Export. All elements convert.</span></li>
+        <li><span class="inst-num">3</span><span><strong>Print/Plot:</strong> <span class="key-chip">File</span> → <span class="key-chip">Print/Plot</span>. Select paper size (A4, A3, A1), set scale, and choose printer or <strong>PDF driver</strong> to export as PDF.</span></li>
+        <li><span class="inst-num">4</span><span><strong>Raster Export:</strong> <span class="key-chip">File</span> → <span class="key-chip">Export</span> → <span class="key-chip">Raster Images</span> to save as PNG, TIFF, or JPEG — useful for reports and presentations.</span></li>
+        <li><span class="inst-num">5</span><span><strong>Sheet Setup:</strong> Before printing, use <strong>Drawing Composition</strong> to add a title block, border, and company logo to your drawing sheet.</span></li>
+      </ul>
+      <div class="tip-box">
+        <i class="ti ti-check" aria-hidden="true"></i>
+        <p>Demo complete! You've covered MicroStation's core workflow: Setup → Draw → Organize → Annotate → Model 3D → Export. This is the same workflow used in real infrastructure projects.</p>
+      </div>
+      <div style="margin-top: 14px; background: var(--bg-success); border: 0.5px solid var(--border-success); border-radius: 8px; padding: 12px 14px; display: flex; gap: 10px; align-items: center;">
+        <i class="ti ti-trophy" style="color: var(--text-success); font-size: 20px;" aria-hidden="true"></i>
+        <div>
+          <div style="font-size: 13px; font-weight: 500; color: var(--text-success);">Demo Complete — 8 Steps Covered!</div>
+          <div style="font-size: 12px; color: var(--text-success); opacity: 0.85; margin-top: 2px;">Ready to submit as Assignment Demo for Sir Noman Mazher</div>
+        </div>
+      </div>
+    `
+  }
+];
+
+let current = 0;
+const completed = new Set();
+
+function renderNav() {
+  const nav = document.getElementById('stepsNav');
+  nav.innerHTML = steps.map((s, i) => 
+    `<div class="step-dot ${i === current ? 'active' : completed.has(i) ? 'done' : ''}" onclick="goTo(${i})">${i + 1}</div>`
+  ).join('');
+}
+
+function renderStep() {
+  const s = steps[current];
+  document.getElementById('stepCard').innerHTML = `
+    <div class="step-card-header">
+      <span class="step-num">Step ${current + 1} of ${steps.length}</span>
+      <span class="step-title">${s.title}</span>
+    </div>
+    <div class="step-body">${s.content()}</div>
+  `;
+  document.getElementById('progressText').textContent = `${current + 1} / ${steps.length}`;
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').innerHTML = current === steps.length - 1 
+    ? 'Finish <i class="ti ti-check" aria-hidden="true"></i>'
+    : 'Next <i class="ti ti-arrow-right" aria-hidden="true"></i>';
+}
+
+function goTo(i) {
+  completed.add(current);
+  current = i;
+  renderNav();
+  renderStep();
+}
+
+function changeStep(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < steps.length) {
+    goTo(next);
+  }
+}
+
+renderNav();
+renderStep();
+</script>
