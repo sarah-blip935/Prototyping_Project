@@ -23,4 +23,5 @@ This code was written and executed directly inside **Solana Playground**, using 
 
 A screenshot of the terminal output after running the script is included in this repo (`output-screenshot.png`), showing the connection status, generated wallet address, and balance results.
 
-## 
+## Author
+Eman Fatima- Wallet Balance Checker
